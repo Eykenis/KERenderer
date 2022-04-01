@@ -5,8 +5,9 @@
 #include "TGA_Image.h"
 #include "draw2d.h"
 #include "pipeline.h"
-#pragma g++ optimize(3)
-
+#include "GouraudShader.h"
+#include "scenes.h"
+Scenes scenes;
 Model* model;
 int main(int argc, const char* argv) {
 	// argv: model name, render mode, (tex names)
@@ -16,17 +17,20 @@ int main(int argc, const char* argv) {
 	// update: render model on images
 	
 	// debug area
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(0);
 	clock_t start, end;
-	start = clock();
-	model = new Model("african.obj");
-	end = clock();
-	std::cout << "Used " << (double)(end - start) / CLOCKS_PER_SEC << " secs to load .obj model.\n";
 	TGA_Image image(WINDOW_WIDTH, WINDOW_HEIGHT, TGA_Image::RGB);
 	//rasterizeFrame(image, model, WHITE);
 	start = clock();
-	rasterizeTri(image, model, TGA_Color(255, 255, 255, 255));
+
+	//---------------------------------------------
+	model = new Model("african.obj");
+	GouraudShader shader(model);
+	rasterizeTri(image, model, WHITE, shader);
+
+	//scenes.african(model, shader, image);
+	
+
+	//---------------------------------------------
 	end = clock();
 	std::cout << "Used " << (double)(end - start) / CLOCKS_PER_SEC << " secs to draw the diffuse render image.\n";
 	image.flip_vertically();

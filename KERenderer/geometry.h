@@ -309,9 +309,9 @@ template<typename T> struct Mat4
 float module(Vec2f&);
 float module(Vec3f&);
 float module(Vec4f&);
-void normalize(Vec2f&);
-void normalize(Vec3f&);
-void normalize(Vec4f&);
+Vec2f normalize(Vec2f);
+Vec3f normalize(Vec3f);
+Vec4f normalize(Vec4f);
 void setIdentical(Mat3f&);
 void setIdentical(Mat4f&);
 void setIdentical(Mat3i&);
@@ -321,7 +321,7 @@ void setZero(Mat4f&);
 void setZero(Mat3i&);
 void setZero(Mat4i&);
 
-Vec3f barycentric(Vec3f p, Vec3f a, Vec3f b, Vec3f c);
+Vec3f barycentric(Vec2f p, Vec2f a, Vec2f b, Vec2f c);
 bool inTriangle(const Vec3f&); // use barycentric's ret value
 Mat4f get_MVP_matrix(float angleX, float angleY, float angleZ);
 void debug_Mat4(Mat4f);

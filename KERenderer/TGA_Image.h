@@ -44,8 +44,10 @@ public:
 	//void load_PNG(char*);
 	//  void release_TGA_Image();
 	bool setColor(int x, int y, TGA_Color c);
+	bool load_rle_data(std::ifstream& in);
 	bool unload_rle_data(std::ofstream& out);
 	TGA_Color get(int x, int y);
+	bool read_TGA(const char* filename);
 	bool write_TGA(const char* filename, bool rle = 1);
 	bool flip_vertically();
 };

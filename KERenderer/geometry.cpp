@@ -12,23 +12,26 @@ float module(Vec4f& v) {
 	return sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
 }
 
-void normalize(Vec3f& v) {
+Vec3f normalize(Vec3f v) {
 	float mod = module(v);
 	v.x /= mod;
 	v.y /= mod;
 	v.z /= mod;
+	return v;
 }
-void normalize(Vec2f& v) {
+Vec2f normalize(Vec2f v) {
 	float mod = module(v);
 	v.x /= mod;
 	v.y /= mod;
+	return v;
 }
-void normalize(Vec4f& v) {
+Vec4f normalize(Vec4f v) {
 	float mod = module(v);
 	v.x /= mod;
 	v.y /= mod;
 	v.z /= mod;
 	v.w /= mod;
+	return v;
 }
 
 void setIdentical(Mat3f& m) {
@@ -98,8 +101,8 @@ void setZero(Mat4i& m) {
 	}
 }
 
-Vec3f barycentric(Vec3f p, Vec3f a, Vec3f b, Vec3f c) {
-	Vec3f v0 = b - a, v1 = c - a, v2 = p - a;
+Vec3f barycentric(Vec2f p, Vec2f a, Vec2f b, Vec2f c) {
+	Vec2f v0 = b - a, v1 = c - a, v2 = p - a;
 	float d00 = v0 * v0;
 	float d01 = v0 * v1;
 	float d11 = v1 * v1;
@@ -142,16 +145,16 @@ Mat4f get_MVP_matrix(float angleX, float angleY, float angleZ) { // Radian degre
 
 	Mat4f ret;
 	setIdentical(ret);
-	ret.m[3][2] = -1.f / 3.f;
+	ret.m[3][2] = -1.f / 4.f;
 
 	Mat4f ortho;
 	setIdentical(ortho);
-	ortho.m[0][0] = WINDOW_WIDTH / 4.;
-	ortho.m[1][1] = WINDOW_HEIGHT / 4.;
-	ortho.m[2][2] = WINDOW_DEPTH / 4.;
-	ortho.m[0][3] = WINDOW_WIDTH / 8. + WINDOW_WIDTH / 4.;
-	ortho.m[1][3] = WINDOW_HEIGHT / 8. + WINDOW_WIDTH / 6.;
-	ortho.m[2][3] = WINDOW_DEPTH / 4.;
+	ortho.m[0][0] = WINDOW_WIDTH / 6.;
+	ortho.m[1][1] = WINDOW_HEIGHT / 6.;
+	ortho.m[2][2] = WINDOW_DEPTH / 6.;
+	ortho.m[0][3] = WINDOW_WIDTH / 12. + WINDOW_WIDTH / 2.;
+	ortho.m[1][3] = WINDOW_HEIGHT / 12. + WINDOW_WIDTH / 4.;
+	ortho.m[2][3] = WINDOW_DEPTH / 6.;
 
 	MVP = new Mat4f(ortho * ret * rot);
 

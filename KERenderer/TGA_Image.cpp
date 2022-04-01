@@ -138,3 +138,108 @@ bool TGA_Image::flip_vertically() {
 	} delete[] line;
 	return true;
 }
+
+bool TGA_Image::load_rle_data(std::ifstream& in) {
+	unsigned long pixelcount = width * height;
+	unsigned long currentpixel = 0;
+	unsigned long currentbyte = 0;
+	TGA_Color colorbuffer(255, 255, 255, 255);
+	do {
+		unsigned char chunkheader = 0;
+		chunkheader = in.get();
+		if (!in.good()) {
+			std::cerr << "an error occured while reading the data\n";
+			return false;
+		}
+		if (chunkheader < 128) {
+			chunkheader++;
+			for (int i = 0; i < chunkheader; i++) {
+				in.read((char*)colorbuffer.raw, bytespp);
+				if (!in.good()) {
+					std::cerr << "an error occured while reading the header\n";
+					return false;
+				}
+				for (int t = 0; t < bytespp; t++)
+					data[currentbyte++] = colorbuffer.raw[t];
+				currentpixel++;
+				if (currentpixel > pixelcount) {
+					std::cerr << "Too many pixels read\n";
+					return false;
+				}
+			}
+		}
+		else {
+			chunkheader -= 127;
+			in.read((char*)colorbuffer.raw, bytespp);
+			if (!in.good()) {
+				std::cerr << "an error occured while reading the header\n";
+				return false;
+			}
+			for (int i = 0; i < chunkheader; i++) {
+				for (int t = 0; t < bytespp; t++)
+					data[currentbyte++] = colorbuffer.raw[t];
+				currentpixel++;
+				if (currentpixel > pixelcount) {
+					std::cerr << "Too many pixels read\n";
+					return false;
+				}
+			}
+		}
+	} while (currentpixel < pixelcount);
+	return true;
+}
+
+bool TGA_Image::read_TGA(const char* filename) {
+	if (data) delete[] data;
+	data = NULL;
+	std::ifstream in;
+	in.open(filename, std::ios::binary);
+	if (!in.is_open()) {
+		std::cerr << "cannnot open file" << filename << '\n';
+		in.close();
+		return false;
+	}
+	TGA_Header header;
+	in.read((char*)&header, sizeof(header));
+	if (!in.good()) {
+		in.close();
+		std::cerr << "an error occured while reading the header\n";
+		return false;
+	}
+	width = header.width;
+	height = header.height;
+	bytespp = header.bitsperpixel >> 3;
+	if (width <= 0 || height <= 0 || (bytespp != GRAYSCALE && bytespp != RGB && bytespp != RGBA)) {
+		in.close();
+		std::cerr << "bad bytespp value\n";
+		return false;
+	}
+	unsigned long nbytes = bytespp * width * height;
+	data = new unsigned char[nbytes];
+	if (header.dataTypeCode == 3 || header.dataTypeCode == 2) {
+		in.read((char*)data, nbytes);
+		if (!in.good()) {
+			in.close();
+			std::cerr << "error occured\n";
+			return false;
+		}
+	}
+	else if (header.dataTypeCode == 10 || header.dataTypeCode == 11) {
+		if (!load_rle_data(in)) {
+			in.close();
+			std::cerr << "error occured\n";
+			return false;
+		}
+	}
+	else {
+		in.close();
+		std::cerr << "unknow format " << header.dataTypeCode << std::endl;
+		return false;
+	}
+	if (!(header.imageDescriptor & 0x20)) {
+		flip_vertically();
+	}
+	std::cerr << width << "x" << height << "/" << bytespp << 3 << std::endl;
+	in.close();
+	return true;
+}

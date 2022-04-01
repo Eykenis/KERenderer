@@ -21,8 +21,8 @@
   <ItemGroup>
     <ClInclude Include="draw2d.h" />
     <ClInclude Include="geometry.h" />
-    <ClInclude Include="globalvariable.h" />
     <ClInclude Include="GouraudShader.h" />
+    <ClInclude Include="PhongShader.h" />
     <ClInclude Include="TGA_Image.h" />
     <ClInclude Include="macro.h" />
     <ClInclude Include="model.h" />
@@ -32,6 +32,7 @@
   <ItemGroup>
     <ClCompile Include="draw2d.cpp" />
     <ClCompile Include="geometry.cpp" />
+    <ClCompile Include="scenes.h" />
     <ClCompile Include="TGA_Image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
