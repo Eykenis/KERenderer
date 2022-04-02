@@ -10,7 +10,7 @@
 #include "scenes.h"
 Scenes scenes;
 Model* model;
-int main(int argc, const char* argv) {
+int main(int argc, char* argv[]) {
 	// argv: model name, render mode, (tex names)
 
 	// load model and create image
@@ -21,17 +21,22 @@ int main(int argc, const char* argv) {
 	clock_t start, end;
 	TGA_Image phong(WINDOW_WIDTH, WINDOW_HEIGHT, TGA_Image::RGB);
 	TGA_Image gouraud(WINDOW_WIDTH, WINDOW_HEIGHT, TGA_Image::RGB);
-	TGA_Image zbuffer(WINDOW_WIDTH, WINDOW_HEIGHT, TGA_Image::RGB);
-	//rasterizeFrame(image, model, WHITE);
-
-	//---------------------------------------------
 	GouraudShader gshader(NULL);
-
-	scenes.a2(model, gshader, zbuffer);
-
 	PhongShader pshader(NULL);
+	//---------------------------------------------
 
-	scenes.a2(model, pshader, zbuffer);
+	if (argc == 0) {
+		scenes.a2(model, gshader, gouraud);
+		scenes.a2(model, pshader, phong);
+	}
+	else if (argv[0] == "1") {
+		scenes.a2(model, gshader, gouraud);
+		scenes.a2(model, pshader, phong);
+	}
+	else if (argv[0] == "2") {
+		scenes.african(model, gshader, gouraud);
+		scenes.african(model, pshader, phong);
+	}
 
 	//---------------------------------------------
 	phong.flip_vertically();
