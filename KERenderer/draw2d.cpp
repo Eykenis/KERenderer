@@ -10,7 +10,7 @@ void draw_line(TGA_Image& image, int x_from, int y_from, int x_to, int y_to, TGA
 	}
 }
 
-void draw_triangle(TGA_Image& image, Vec3f* v, VirtualShader& shader) {
+void draw_triangle(TGA_Image& image, Vec3f* v, VirtualShader& shader, int mode) {
 	int left_bound_ = std::min(v[0].x, std::min(v[1].x, v[2].x));
 	int right_bound_ = std::max(v[0].x, std::max(v[1].x, v[2].x));
 	int up_bound_ = std::max(v[0].y, std::max(v[1].y, v[2].y));
@@ -30,11 +30,16 @@ void draw_triangle(TGA_Image& image, Vec3f* v, VirtualShader& shader) {
 			}
 
 			if (inTriangle(interpolate) && z > zbuffer[P.x][P.y]) {
-				if (!shader.fragment(interpolate, color)) {
-					// vertex shader only
+				if (mode == 1) { // Normal Shader
+					if (!shader.fragment(interpolate, color)) {
+						// vertex shader only
+						zbuffer[P.x][P.y] = z;
+						image.setColor(P.x, P.y, color); // Gouraud/Phong
+					}
+				}
+				else if (mode == 2) { // Z-buffer
 					zbuffer[P.x][P.y] = z;
-					//image.setColor(P.x, P.y, TGA_Color(255, 255, 255) * std::min(z * 2.f, 1.f)); // ZBuffering
-					image.setColor(P.x, P.y, color); // Gouraud/Phong
+					image.setColor(P.x, P.y, TGA_Color(255, 255, 255) * std::min(z * 2.f, 1.f)); // ZBuffering
 				}
 			}
 		}

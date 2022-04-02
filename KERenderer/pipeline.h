@@ -8,5 +8,5 @@
 
 // rasterization (draw)
 void rasterizeFrame(TGA_Image& image, Model* model, TGA_Color color);
-void rasterizeTri(TGA_Image& image, Model* model, TGA_Color color, VirtualShader& shader);
+void rasterizeTri(TGA_Image& image, Model* model, TGA_Color color, VirtualShader& shader, int mode);
 #endif // PIPELINE_H

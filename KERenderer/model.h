@@ -60,13 +60,11 @@ public:
 				iss >> trash;
 				Vec3i tmp;
 				std::vector<Vec3i> f;
-				int cnt = 0;
 				while (iss >> tmp.v[0] >> trash >> tmp.v[1] >> trash >> tmp.v[2]) {
 					for (int i = 0; i < 3; ++i) {
 						tmp.v[i]--;
 					}
 					f.push_back(tmp);
-					cnt++;
 				}
 				_faces.push_back(f);
 			}

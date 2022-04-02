@@ -7,6 +7,6 @@
 #include "VirtualShader.h"
 
 void draw_line(TGA_Image& image, int x_from, int y_from, int x_to, int y_to, TGA_Color color);
-void draw_triangle(TGA_Image& image, Vec3f* v, VirtualShader& shader);
+void draw_triangle(TGA_Image& image, Vec3f* v, VirtualShader& shader, int mode);
 
 #endif // !DRAW2D_H

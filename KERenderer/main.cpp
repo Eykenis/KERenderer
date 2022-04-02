@@ -6,6 +6,7 @@
 #include "draw2d.h"
 #include "pipeline.h"
 #include "GouraudShader.h"
+#include "PhongShader.h"
 #include "scenes.h"
 Scenes scenes;
 Model* model;
@@ -18,22 +19,24 @@ int main(int argc, const char* argv) {
 	
 	// debug area
 	clock_t start, end;
-	TGA_Image image(WINDOW_WIDTH, WINDOW_HEIGHT, TGA_Image::RGB);
+	TGA_Image phong(WINDOW_WIDTH, WINDOW_HEIGHT, TGA_Image::RGB);
+	TGA_Image gouraud(WINDOW_WIDTH, WINDOW_HEIGHT, TGA_Image::RGB);
+	TGA_Image zbuffer(WINDOW_WIDTH, WINDOW_HEIGHT, TGA_Image::RGB);
 	//rasterizeFrame(image, model, WHITE);
-	start = clock();
 
 	//---------------------------------------------
-	model = new Model("african.obj");
-	GouraudShader shader(model);
-	rasterizeTri(image, model, WHITE, shader);
+	GouraudShader gshader(NULL);
 
-	//scenes.african(model, shader, image);
-	
+	scenes.a2(model, gshader, zbuffer);
+
+	PhongShader pshader(NULL);
+
+	scenes.a2(model, pshader, zbuffer);
 
 	//---------------------------------------------
-	end = clock();
-	std::cout << "Used " << (double)(end - start) / CLOCKS_PER_SEC << " secs to draw the diffuse render image.\n";
-	image.flip_vertically();
-	image.write_TGA("output.tga");
+	phong.flip_vertically();
+	phong.write_TGA("phong.tga");
+	gouraud.flip_vertically();
+	gouraud.write_TGA("gouraud.tga");
 	return 0;
 }

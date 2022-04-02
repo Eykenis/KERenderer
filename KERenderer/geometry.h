@@ -217,6 +217,11 @@ template<typename T> struct Mat3
 		}
 		return vec;
 	}
+
+	T det() {
+		return	m[0][0] * m[1][1] * m[2][2] + m[0][1] * m[1][2] * m[2][0] + m[0][2] * m[1][0] * m[2][1] -
+				m[2][0] * m[1][1] * m[0][2] - m[2][1] * m[1][2] * m[0][0] - m[2][2] * m[1][0] * m[0][1];
+	}
 };
 
 // for homogeous coordinates
@@ -291,6 +296,33 @@ template<typename T> struct Mat4
 			vec.v[i] = m[i][0] * t.v[0] + m[i][1] * t.v[1] + m[i][2] * t.v[2] + m[i][3] * t.v[3];
 		}
 		return vec;
+	}
+
+	Mat3<T> minor(int row, int col) {
+		Mat3<T> ret;
+		for (int i = 2; i >= 0; --i) {
+			for (int j = 2; j >= 0; --j) {
+				ret.m[i][j] = m[i < row ? i : i + 1][j < col ? j : j + 1];
+			}
+		}
+		return ret;
+	}
+
+	Mat4<T> adjugate() {
+		Mat4<T> ret;
+		setZero(ret);
+		for (int i = 3; i >= 0; --i) {
+			for (int j = 3; j >= 0; --j) {
+				ret.m[i][j] = (minor(i, j).det()) * ((i + j) % 2 ? -1 : 1);
+			}
+		}
+		return ret;
+	}
+
+	Mat4<T> inverse_transpose() {
+		Mat4<T> ret = adjugate();
+		T tmp = ret.m[0][0] * m[0][0] + ret.m[0][1] * m[0][1] + ret.m[0][2] * m[0][2];
+		return ret * (1.f / tmp);
 	}
 };
 
