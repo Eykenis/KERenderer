@@ -10,7 +10,7 @@ public:
     virtual Vec4f vertex(int _face_num, int _nth_vert) {
         intensity.v[_nth_vert] = std::max(0.f, model->normal(_face_num, _nth_vert) * normalize(LIGHT_DIR));
         Vec4f vertex = Vec4f(model->vert(_face_num, _nth_vert), 1.f);
-        vertex.y--;
+        vertex.y -= 0.5f;
         return get_MVP_matrix(ANGLEX, ANGLEY, ANGLEZ) * vertex;
     }
     

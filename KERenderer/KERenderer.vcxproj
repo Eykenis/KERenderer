@@ -23,6 +23,8 @@
     <ClInclude Include="geometry.h" />
     <ClInclude Include="GouraudShader.h" />
     <ClInclude Include="PhongShader.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="TGA_Image.h" />
     <ClInclude Include="macro.h" />
     <ClInclude Include="model.h" />

@@ -24,7 +24,10 @@ void rasterizeTri(TGA_Image& image, Model* model, TGA_Color color, VirtualShader
 			for (int j = 0; j < 3; ++j) {
 				Vec4f tmp;
 				if (mode == 1) tmp = shader.vertex(i, j);
-				else tmp = get_MVP_matrix(ANGLEX, ANGLEY, ANGLEZ) * Vec4f(model->vert(i, j), 1.f);
+				else {
+					tmp = get_MVP_matrix(ANGLEX, ANGLEY, ANGLEZ) * Vec4f(model->vert(i, j), 1.f);
+					tmp.y -= 0.5f;
+				}
 				screen_coords[j] = Vec3f(tmp.x / tmp.w, tmp.y / tmp.w, tmp.z / tmp.w);
 			}
 			draw_triangle(image, screen_coords, shader, mode);

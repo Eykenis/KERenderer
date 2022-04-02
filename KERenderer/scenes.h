@@ -8,13 +8,15 @@
 struct Scenes {
 
 	void african(Model* model, VirtualShader& shader, TGA_Image& image) {
-		model = new Model("african.obj");
+		if (model) delete model;
+		model = new Model("./obj/african.obj");
 		shader.model = model;
 		rasterizeTri(image, model, WHITE, shader, 1);
 		delete model;
 	}
 
 	void dark_magician(Model* model, VirtualShader& shader, TGA_Image& image) {
+		if (model) delete model;
 		model = new Model("./obj/dark_magician/SubTool-0-12649208.OBJ");
 		shader.model = model;
 		rasterizeTri(image, model, WHITE, shader, 2);
@@ -97,16 +99,33 @@ struct Scenes {
 	}
 
 	void a2(Model* model, VirtualShader& shader, TGA_Image& image) {
-		model = new Model("0.obj");
+		if (model) delete model;
+		model = new Model("./obj/0.obj");
 		shader.model = model;
 		rasterizeTri(image, model, WHITE, shader, 1);
 		delete model;
 	}
 
 	void lm(Model* model, VirtualShader& shader, TGA_Image& image) {
-		model = new Model("luomo.obj");
+		model = new Model("./obj/luomo.obj");
 		shader.model = model;
 		rasterizeTri(image, model, WHITE, shader, 2);
+	}
+
+	void african_z(Model* model, VirtualShader& shader, TGA_Image& image) {
+		if (model) delete model;
+		model = new Model("./obj/african.obj");
+		shader.model = model;
+		rasterizeTri(image, model, WHITE, shader, 2);
+		delete model;
+	}
+
+	void a2_z(Model* model, VirtualShader& shader, TGA_Image& image) {
+		if (model) delete model;
+		model = new Model("./obj/0.obj");
+		shader.model = model;
+		rasterizeTri(image, model, WHITE, shader, 2);
+		delete model;
 	}
 };
 #endif // SCENES_H

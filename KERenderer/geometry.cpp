@@ -149,12 +149,12 @@ Mat4f get_MVP_matrix(float angleX, float angleY, float angleZ) { // Radian degre
 
 	Mat4f ortho;
 	setIdentical(ortho);
-	ortho.m[0][0] = WINDOW_WIDTH / 6.;
-	ortho.m[1][1] = WINDOW_HEIGHT / 6.;
-	ortho.m[2][2] = WINDOW_DEPTH / 6.;
-	ortho.m[0][3] = WINDOW_WIDTH / 12. + WINDOW_WIDTH / 2.;
-	ortho.m[1][3] = WINDOW_HEIGHT / 12. + WINDOW_WIDTH / 4.;
-	ortho.m[2][3] = WINDOW_DEPTH / 6.;
+	ortho.m[0][0] = WINDOW_WIDTH / 5.;
+	ortho.m[1][1] = WINDOW_HEIGHT / 5.;
+	ortho.m[2][2] = WINDOW_DEPTH / 5.;
+	ortho.m[0][3] = WINDOW_WIDTH / 10. + WINDOW_WIDTH / 2.f;
+	ortho.m[1][3] = WINDOW_HEIGHT / 10. + WINDOW_WIDTH / 4.;
+	ortho.m[2][3] = WINDOW_DEPTH / 5.;
 
 	MVP = new Mat4f(ortho * ret * rot);
 

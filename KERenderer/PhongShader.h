@@ -19,7 +19,7 @@ public:
         Vec4f vertex = Vec4f(model->vert(_face_num, _nth_vert), 1.f);
         nrm[_nth_vert] = Vec4f(model->normal(_face_num, _nth_vert), 0.f);
         nrm[_nth_vert] = normalize(nrm[_nth_vert]);
-        vertex.y--;
+        vertex.y -= 0.5f;
         return get_MVP_matrix(ANGLEX, ANGLEY, ANGLEZ) * vertex;
     }
 
