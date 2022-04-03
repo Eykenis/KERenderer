@@ -2,7 +2,7 @@
 ![sample](https://user-images.githubusercontent.com/75401909/161378679-9e5d0b58-2be9-4cda-8b9f-e3db9ea135de.png)
 
 My first attempt to build my own software renderer
-- If nothing unexpected happens it will be released using full C++
+- Next goal: make it real-time.
 
 # Release usage
 - unzip and run KERenderer.exe.
