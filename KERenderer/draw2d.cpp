@@ -1,8 +1,11 @@
 #include "draw2d.h"
 #include <cmath>
 #include <iostream>
-double zbuffer[WINDOW_WIDTH][WINDOW_HEIGHT];
-bool vis[WINDOW_WIDTH][WINDOW_HEIGHT];
+
+void draw_pixel(unsigned char* framebuffer, int x, int y, TGA_Color color) {
+	int idx = ((WINDOW_HEIGHT - y - 1) * WINDOW_WIDTH + x) * 4;
+	for (int i = 0; i < 3; ++i) framebuffer[idx + i] = color.raw[i];
+}
 
 void draw_line(TGA_Image& image, int x_from, int y_from, int x_to, int y_to, TGA_Color color) {
 	for (float t = 0; t < 1; t += .001) {
@@ -10,7 +13,7 @@ void draw_line(TGA_Image& image, int x_from, int y_from, int x_to, int y_to, TGA
 	}
 }
 
-void draw_triangle(TGA_Image& image, Vec3f* v, VirtualShader& shader, int mode) {
+void draw_triangle(unsigned char* framebuffer, Vec3f* v, VirtualShader& shader, int mode, float zbuffer[][WINDOW_HEIGHT]) {
 	int left_bound_ = std::min(v[0].x, std::min(v[1].x, v[2].x));
 	int right_bound_ = std::max(v[0].x, std::max(v[1].x, v[2].x));
 	int up_bound_ = std::max(v[0].y, std::max(v[1].y, v[2].y));
@@ -24,22 +27,17 @@ void draw_triangle(TGA_Image& image, Vec3f* v, VirtualShader& shader, int mode) 
 
 			TGA_Color color(255, 255, 255, 255);
 
-			if (!vis[P.x][P.y]) {
-				vis[P.x][P.y] = 1;
-				zbuffer[P.x][P.y] = -1e10;
-			}
-
 			if (inTriangle(interpolate) && z > zbuffer[P.x][P.y]) {
 				if (mode == 1) { // Normal Shader
 					if (!shader.fragment(interpolate, color)) {
 						// vertex shader only
 						zbuffer[P.x][P.y] = z;
-						image.setColor(P.x, P.y, color); // Gouraud/Phong
+						draw_pixel(framebuffer, P.x, P.y, color); // Gouraud/Phong
 					}
 				}
 				else if (mode == 2) { // Z-buffer
 					zbuffer[P.x][P.y] = z;
-					image.setColor(P.x, P.y, TGA_Color(255, 255, 255) * std::min(z * 2.f, 1.f)); // ZBuffering
+					draw_pixel(framebuffer, P.x, P.y, TGA_Color(255, 255, 255) * std::min(z * 2.f, 1.f)); // ZBuffering
 				}
 			}
 		}

@@ -50,6 +50,8 @@ public:
 	bool read_TGA(const char* filename);
 	bool write_TGA(const char* filename, bool rle = 1);
 	bool flip_vertically();
+	int getWidth() { return width; }
+	int getHeight() { return height; }
 };
 #pragma pack(push, 1)
 
@@ -93,7 +95,10 @@ struct TGA_Color {
 
 	TGA_Color(const unsigned char* p, int bpp) {
 		bytespp = bpp;
-		for (int i = 0; i < bpp; ++i) raw[i] = p[i];
+		r = p[0];
+		g = p[1];
+		if (bpp >= 3) b = p[2];
+		if (bpp >= 4) a = p[3];
 	}
 
 	TGA_Color& operator = (const TGA_Color& c) {
@@ -105,7 +110,10 @@ struct TGA_Color {
 	}
 
 	TGA_Color operator * (const float f) {
-		return TGA_Color(r * f, g * f, b * f, a);
+		return TGA_Color(MIN(255.f, r * f), MIN(255.f, g * f), MIN(255.f, b * f), a);
+	}
+	TGA_Color operator + (const TGA_Color& o) {
+		return TGA_Color(MIN(255.f, r + o.r), MIN(255.f, g + o.g), MIN(255.f, b + o.b), a);
 	}
 };
 

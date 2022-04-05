@@ -1,4 +1,5 @@
 #include "pipeline.h"
+Vec3f screen_coords[3];
 
 void rasterizeFrame(TGA_Image& image, Model* model, TGA_Color color) {
 	for (int i = 0; i < model->nface(); ++i) {
@@ -18,18 +19,20 @@ void rasterizeFrame(TGA_Image& image, Model* model, TGA_Color color) {
 	}
 }
 
-void rasterizeTri(TGA_Image& image, Model* model, TGA_Color color, VirtualShader& shader, int mode) {
+void rasterizeTri(unsigned char* framebuffer, Model* model, TGA_Color color, VirtualShader& shader, int mode, float zbuffer[][WINDOW_HEIGHT], Vec4f lookat) {
 	for (int i = 0; i < model->nface(); ++i) {
-			Vec3f screen_coords[3];
-			for (int j = 0; j < 3; ++j) {
-				Vec4f tmp;
-				if (mode == 1) tmp = shader.vertex(i, j);
-				else {
-					tmp = get_MVP_matrix(ANGLEX, ANGLEY, ANGLEZ) * Vec4f(model->vert(i, j), 1.f);
-					tmp.y -= 0.5f;
-				}
-				screen_coords[j] = Vec3f(tmp.x / tmp.w, tmp.y / tmp.w, tmp.z / tmp.w);
+		for (int j = 0; j < 3; ++j) {
+			Vec4f tmp;
+			if (mode == 1) tmp = shader.vertex(i, j);
+			else {
+				tmp = get_MVP_matrix(ANGLEX, ANGLEY, ANGLEZ) * Vec4f(model->vert(i, j), 1.f);
+				tmp.y -= 0.5f;
 			}
-			draw_triangle(image, screen_coords, shader, mode);
+			screen_coords[j] = Vec3f(tmp.x / tmp.w, tmp.y / tmp.w, tmp.z / tmp.w);
+		}
+		Vec4f world_normal = Vec4f((screen_coords[2] - screen_coords[1]) ^ (screen_coords[1] - screen_coords[0]), 0.f);
+		if (world_normal * lookat <= 0) {
+			draw_triangle(framebuffer, screen_coords, shader, mode, zbuffer);
+		}
 	}
 }

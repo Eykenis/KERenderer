@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlinnShader.h" />
     <ClInclude Include="draw2d.h" />
+    <ClInclude Include="FlatShader.h" />
     <ClInclude Include="geometry.h" />
     <ClInclude Include="GouraudShader.h" />
+    <ClInclude Include="mesh.h" />
     <ClInclude Include="PhongShader.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
+    <ClInclude Include="platform.h" />
     <ClInclude Include="TGA_Image.h" />
     <ClInclude Include="macro.h" />
     <ClInclude Include="model.h" />
@@ -34,6 +36,8 @@
   <ItemGroup>
     <ClCompile Include="draw2d.cpp" />
     <ClCompile Include="geometry.cpp" />
+    <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="platform.cpp" />
     <ClCompile Include="scenes.h" />
     <ClCompile Include="TGA_Image.cpp" />
     <ClCompile Include="main.cpp" />

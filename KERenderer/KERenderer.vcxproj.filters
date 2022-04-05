@@ -45,10 +45,16 @@
     <ClInclude Include="PhongShader.h">
       <Filter>头文件\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="platform.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h">
+    <ClInclude Include="FlatShader.h">
+      <Filter>头文件\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="BlinnShader.h">
+      <Filter>头文件\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -73,6 +79,12 @@
     </ClCompile>
     <ClCompile Include="scenes.h">
       <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="platform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

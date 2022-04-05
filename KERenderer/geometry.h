@@ -357,5 +357,6 @@ Vec3f barycentric(Vec2f p, Vec2f a, Vec2f b, Vec2f c);
 bool inTriangle(const Vec3f&); // use barycentric's ret value
 Mat4f get_MVP_matrix(float angleX, float angleY, float angleZ);
 void debug_Mat4(Mat4f);
+Mat4f get_rot(float angleX, float angleY, float angleZ);
 
 #endif // GEOMETRY_H

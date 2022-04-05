@@ -149,12 +149,12 @@ Mat4f get_MVP_matrix(float angleX, float angleY, float angleZ) { // Radian degre
 
 	Mat4f ortho;
 	setIdentical(ortho);
-	ortho.m[0][0] = WINDOW_WIDTH / 5.;
-	ortho.m[1][1] = WINDOW_HEIGHT / 5.;
-	ortho.m[2][2] = WINDOW_DEPTH / 5.;
-	ortho.m[0][3] = WINDOW_WIDTH / 10. + WINDOW_WIDTH / 2.f;
-	ortho.m[1][3] = WINDOW_HEIGHT / 10. + WINDOW_WIDTH / 4.;
-	ortho.m[2][3] = WINDOW_DEPTH / 5.;
+	ortho.m[0][0] = MODEL_WIDTH / 2.;
+	ortho.m[1][1] = MODEL_HEIGHT / 2.;
+	ortho.m[2][2] = MODEL_DEPTH / 2.;
+	ortho.m[0][3] = MODEL_WIDTH / 2. + WINDOW_WIDTH / 16;
+	ortho.m[1][3] = MODEL_HEIGHT / 2. + WINDOW_WIDTH / 16.;
+	ortho.m[2][3] = MODEL_DEPTH / 2.;
 
 	MVP = new Mat4f(ortho * ret * rot);
 
@@ -169,4 +169,32 @@ void debug_Mat4(Mat4f mat) {
 		std::cout << '\n';
 	}
 	std::cout << '\n';
+}
+
+Mat4f get_rot(float angleX, float angleY, float angleZ) {
+	Mat4f rot;
+	setIdentical(rot);
+	rot.m[0][0] = cos(angleY);
+	rot.m[0][2] = sin(angleY);
+	rot.m[2][0] = -sin(angleY);
+	rot.m[2][2] = cos(angleY);
+
+	Mat4f tmp;
+	setIdentical(tmp);
+	tmp.m[1][1] = cos(angleX);
+	tmp.m[2][2] = cos(angleX);
+	tmp.m[1][2] = -sin(angleX);
+	tmp.m[2][1] = sin(angleX);
+
+	rot = rot * tmp;
+
+	setIdentical(tmp);
+	tmp.m[0][0] = cos(angleZ);
+	tmp.m[1][1] = cos(angleZ);
+	tmp.m[0][1] = -sin(angleZ);
+	tmp.m[1][0] = sin(angleZ);
+
+	rot = rot * tmp;
+
+	return rot;
 }
