@@ -1,20 +1,32 @@
 # KERenderer
-![sample](https://user-images.githubusercontent.com/75401909/161378679-9e5d0b58-2be9-4cda-8b9f-e3db9ea135de.png)
+<a href="url"><img src="https://user-images.githubusercontent.com/75401909/161915294-63f801a5-cca3-498b-822b-69ed59e1d3c4.png" align="center" height="442" width="394" ></a>
+<a href="url"><img src="https://user-images.githubusercontent.com/75401909/161915890-3c208d47-5a70-4a17-89bf-f448f9865b54.png" align="center" height="442" width="444" ></a>
+
 My first attempt to build my own software renderer
 
-Though it's almost all imitating [tinyrenderer](https://github.com/ssloy/tinyrenderer), refactoring is put on my agenda, to fix exisiting bugs in tinyrenderer and use graphic interfaces to make it cross-platform and real-time.
-## file formats
+## File formats
 Truevision TGA
 
 Wavefront OBJ
-## some short-term goals
-- make it real-time.
-- make uv texture avaliable (supporting .mtl file extension)
-# Release usage
+## Features
+- Z-Buffering
+- prospective projection
+- Gouraud Shading, Phong Shading and Blinn-Phong Shading
+- single UV texture
+- back face culling
+- simple rotation and zoom
+
+## Some short-term goals
+- specular map and normal map
+- shadow
+- orbital camera
+
+# Newest release usage
 - unzip and run KERenderer.exe.
-- in console you can type integers to determine which and how to render.
+- in console you can type integers to determine which to render.
 # References
 ### [ssloy/tinyrenderer](https://github.com/ssloy/tinyrenderer)
 ### [zauonlok/renderer](https://github.com/zauonlok/renderer)
 ### [GAMES101](https://games-cn.org/intro-graphics/)
 ### 《Unity Shader 入门精要》
+### [SunXLei/SRender](https://github.com/SunXLei/SRender) for its legible window interfaces
