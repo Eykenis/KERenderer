@@ -101,8 +101,8 @@ public:
 		std::cout
 			<< "Vertex count: " << _verts.size()
 			<< "\nFace count: " << _faces.size()
-			<< "\nNormal vec count:" << _vns.size() 
-			<< "\nUV vec count:" << _uvs.size() 
+			<< "\nNormal vec count: " << _vns.size() 
+			<< "\nUV vec count: " << _uvs.size() 
 			<< std::endl;
 	}
 };
