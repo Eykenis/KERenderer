@@ -47,6 +47,9 @@ public:
 	}
 
 	Model(const char* filename, int mode) : _verts(), _faces(), _vns(), _uvs() {
+
+		normal_map = diffuse_map = specular_map = NULL;
+
 		std::ifstream in;
 		in.open(filename, std::ifstream::in);
 		if (in.fail()) return;

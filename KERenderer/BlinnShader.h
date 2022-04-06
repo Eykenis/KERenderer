@@ -10,7 +10,7 @@ public:
     Vec3f lookat;
     float gloss;
 
-    BlinnShader(Model* m) { model = m; intensity = { 0.333333f, 0.333333f, 0.333333f }; }
+    BlinnShader(Model* m) { model = m; intensity = { 0.333333f, 0.333333f, 0.333333f }; gloss = 20; }
 
     BlinnShader& operator = (const BlinnShader& g) {
         model = g.model;
@@ -23,12 +23,11 @@ public:
         nrm[_nth_vert] = Vec4f(model->normal(_face_num, _nth_vert), 0.f);
         nrm[_nth_vert] = normalize(nrm[_nth_vert]);
         uv[_nth_vert] = Vec2f(model->uv(_face_num, _nth_vert));
-        vertex.y -= 1.f;
-        return get_MVP_matrix(ANGLEX, ANGLEY, ANGLEZ) * vertex;
+        vertex.y -= .8f;
+        return get_MVP_matrix() * vertex;
     }
 
     virtual bool fragment(Vec3f bary, TGA_Color& color) {
-        float ambient = 25.f;
         Vec3f bn = Vec3f(
             nrm[0].x * bary.x + nrm[1].x * bary.y + nrm[2].x * bary.z,
             nrm[0].y * bary.x + nrm[1].y * bary.y + nrm[2].y * bary.z,
@@ -42,12 +41,15 @@ public:
         bn = normalize(bn);
         // specular:
         Vec3f halfDir = normalize(LIGHT_DIR + lookat);
+        
+        float ambient = 0.08f;
 
         float specular = std::pow(MAX(0.f, bn * halfDir), gloss);
 
         float diffuse = MAX(0.f, (bn * normalize(LIGHT_DIR)));
 
-        color = model->diff(this_uv.x, this_uv.y) * diffuse + model->diff(this_uv.x, this_uv.y) * specular;
+        // Half Lambert
+        color = model->diff(this_uv.x, this_uv.y) * (0.5 * (diffuse + specular + ambient) + 0.5);
 
         return false;
     }

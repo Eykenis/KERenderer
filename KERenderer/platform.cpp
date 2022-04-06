@@ -1,6 +1,6 @@
 #include <cassert>
 #include <cstdio>
-#include <windows.h>
+#include <Windows.h>
 #include "platform.h"
 
 static LRESULT CALLBACK msg_callback(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -49,7 +49,7 @@ static void register_window_class()
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);				//光标样式
 	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);	//背景样式
 	wc.lpszMenuName = NULL;									//菜单
-	wc.lpszClassName = L"SRender_window";					//该窗口类的名字
+	wc.lpszClassName = L"KERenderer";						//该窗口类的名字
 
 	atom = RegisterClass(&wc); //注册窗口类
 	assert(atom != 0);
@@ -82,8 +82,7 @@ static void init_bm_header(BITMAPINFOHEADER& bi, int width, int height)
 
 int window_init(int width, int height, LPCWSTR title)
 {
-	window = (window_t*)malloc(sizeof(window_t));
-
+	window = new window_t;
 	memset(window, 0, sizeof(window_t));
 	window->is_close = 0;
 
@@ -97,7 +96,7 @@ int window_init(int width, int height, LPCWSTR title)
 	register_window_class();
 
 	//创建窗口
-	window->h_window = CreateWindow((L"SRender_window"), title,
+	window->h_window = CreateWindow((L"KERenderer"), title,
 		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 		0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 	assert(window->h_window != NULL);

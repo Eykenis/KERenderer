@@ -117,47 +117,7 @@ bool inTriangle(const Vec3f& bary) {
 	return bary.x >= 0 && bary.y >= 0 && bary.z >= 0;
 }
 
-Mat4f get_MVP_matrix(float angleX, float angleY, float angleZ) { // Radian degree
-	if (MVP) return *MVP;
-	Mat4f rot;
-	setIdentical(rot);
-	rot.m[0][0] = cos(angleY);
-	rot.m[0][2] = sin(angleY);
-	rot.m[2][0] = -sin(angleY);
-	rot.m[2][2] = cos(angleY);
-
-	Mat4f tmp;
-	setIdentical(tmp);
-	tmp.m[1][1] = cos(angleX);
-	tmp.m[2][2] = cos(angleX);
-	tmp.m[1][2] = -sin(angleX);
-	tmp.m[2][1] = sin(angleX);
-
-	rot = rot * tmp;
-
-	setIdentical(tmp);
-	tmp.m[0][0] = cos(angleZ);
-	tmp.m[1][1] = cos(angleZ);
-	tmp.m[0][1] = -sin(angleZ);
-	tmp.m[1][0] = sin(angleZ);
-
-	rot = rot * tmp;
-
-	Mat4f ret;
-	setIdentical(ret);
-	ret.m[3][2] = -1.f / 4.f;
-
-	Mat4f ortho;
-	setIdentical(ortho);
-	ortho.m[0][0] = MODEL_WIDTH / 2.;
-	ortho.m[1][1] = MODEL_HEIGHT / 2.;
-	ortho.m[2][2] = MODEL_DEPTH / 2.;
-	ortho.m[0][3] = MODEL_WIDTH / 2. + WINDOW_WIDTH / 16;
-	ortho.m[1][3] = MODEL_HEIGHT / 2. + WINDOW_WIDTH / 16.;
-	ortho.m[2][3] = MODEL_DEPTH / 2.;
-
-	MVP = new Mat4f(ortho * ret * rot);
-
+Mat4f get_MVP_matrix() {
 	return *MVP;
 }
 
@@ -197,4 +157,48 @@ Mat4f get_rot(float angleX, float angleY, float angleZ) {
 	rot = rot * tmp;
 
 	return rot;
+}
+
+void update_MVP_matrix(float angleX, float angleY, float angleZ, float scale) { // Radian degree
+
+	Mat4f rot;
+	setIdentical(rot);
+	rot.m[0][0] = cos(angleY);
+	rot.m[0][2] = sin(angleY);
+	rot.m[2][0] = -sin(angleY);
+	rot.m[2][2] = cos(angleY);
+
+	Mat4f tmp;
+	setIdentical(tmp);
+	tmp.m[1][1] = cos(angleX);
+	tmp.m[2][2] = cos(angleX);
+	tmp.m[1][2] = -sin(angleX);
+	tmp.m[2][1] = sin(angleX);
+
+	rot = rot * tmp;
+
+	setIdentical(tmp);
+	tmp.m[0][0] = cos(angleZ);
+	tmp.m[1][1] = cos(angleZ);
+	tmp.m[0][1] = -sin(angleZ);
+	tmp.m[1][0] = sin(angleZ);
+
+	rot = rot * tmp;
+
+	Mat4f ret;
+	setIdentical(ret);
+	ret.m[3][2] = -1.f / 4.f;
+
+	Mat4f ortho;
+	setIdentical(ortho);
+	ortho.m[0][0] = MODEL_WIDTH / 2. * scale;
+	ortho.m[1][1] = MODEL_HEIGHT / 2. * scale;
+	ortho.m[2][2] = MODEL_DEPTH / 2. * scale;
+	ortho.m[0][3] = MODEL_WIDTH / 2. * scale;
+	ortho.m[1][3] = MODEL_HEIGHT / 2. * scale;
+	ortho.m[2][3] = MODEL_DEPTH / 2. * scale;
+
+	if(MVP) delete MVP;
+
+	MVP = new Mat4f(ortho * ret * rot);
 }

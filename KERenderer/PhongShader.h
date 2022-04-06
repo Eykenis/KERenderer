@@ -20,8 +20,8 @@ public:
         nrm[_nth_vert] = Vec4f(model->normal(_face_num, _nth_vert), 0.f);
         nrm[_nth_vert] = normalize(nrm[_nth_vert]);
         uv[_nth_vert] = Vec2f(model->uv(_face_num, _nth_vert));
-        vertex.y -= 1.f;
-        return get_MVP_matrix(ANGLEX, ANGLEY, ANGLEZ) * vertex;
+        
+        return get_MVP_matrix() * vertex;
     }
 
     virtual bool fragment(Vec3f bary, TGA_Color& color) {
@@ -37,10 +37,9 @@ public:
             uv[0].y * bary.x + uv[1].y * bary.y + uv[2].y * bary.z
             );
         bn = normalize(bn);
-        // specular:
 
         float diffuse = MAX(0.f, (bn * normalize(LIGHT_DIR)));
-        color = model->diff(this_uv.x, this_uv.y) * diffuse;
+        color = model->diff(this_uv.x, this_uv.y) * (diffuse * 0.5 + 0.5);
         return false;
     }
 };

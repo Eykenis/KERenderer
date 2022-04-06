@@ -32,7 +32,7 @@ void draw_triangle(unsigned char* framebuffer, Vec3f* v, VirtualShader& shader, 
 					if (!shader.fragment(interpolate, color)) {
 						// vertex shader only
 						zbuffer[P.x][P.y] = z;
-						draw_pixel(framebuffer, P.x, P.y, color); // Gouraud/Phong
+						draw_pixel(framebuffer, P.x, P.y, color); // Gouraud/Phong/Blinn
 					}
 				}
 				else if (mode == 2) { // Z-buffer

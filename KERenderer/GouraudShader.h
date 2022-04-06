@@ -14,7 +14,7 @@ public:
         Vec4f vertex = Vec4f(model->vert(_face_num, _nth_vert), 1.f);
         uv[_nth_vert] = Vec2f(model->uv(_face_num, _nth_vert));
         vertex.y -= 1.f;
-        return get_MVP_matrix(ANGLEX, ANGLEY, ANGLEZ) * vertex;
+        return get_MVP_matrix() * vertex;
     }
     
     virtual bool fragment(Vec3f bary, TGA_Color& color) {

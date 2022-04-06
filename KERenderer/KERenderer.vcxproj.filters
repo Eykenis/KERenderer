@@ -57,6 +57,9 @@
     <ClInclude Include="mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="variable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="geometry.cpp">
@@ -77,13 +80,13 @@
     <ClCompile Include="pipeline.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="scenes.h">
-      <Filter>头文件</Filter>
-    </ClCompile>
     <ClCompile Include="platform.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="variable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
